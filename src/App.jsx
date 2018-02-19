@@ -58,6 +58,7 @@ class App extends Component {
   componentDidUpdate() {
     const elem = ReactDOM.findDOMNode(this.refs.wrappermes);
     if(elem) {
+      //Allows for scrolling to bottom of wrapperMessages div
         elem.scrollIntoView({block: 'end'});
         //needed to push the messages viewport above the footer!
         elem.scrollTop += 63;
