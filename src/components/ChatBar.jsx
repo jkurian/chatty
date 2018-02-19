@@ -13,9 +13,7 @@ export default class ChatBar extends Component {
       this.setState({inputValue: this.state.inputValue, username: evt.target.value})
     }
     const onSubmit = (evt) => {
-      console.log('submitting')
       if(evt.key === 'Enter') {
-        console.log(this.props);
         this.props.addMessage(this.state);
         this.setState({inputValue: '', username: this.state.username})
       }
