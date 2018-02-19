@@ -14,14 +14,19 @@ class App extends Component {
     this.addMessage = this.addMessage.bind(this);
     this.state = defaultState;
     this.componentDidMount = this.componentDidMount.bind(this);
-    this.socket = new WebSocket("ws:localhost:3001", "protocolOne");
+    this.socket = new WebSocket("ws:localhost:3001");
   }
   sendMessage(message) {
     this.socket.send(JSON.stringify(message));
   }
   addMessage(message) {
-    const newMessage = {username: message.username, content: message.inputValue}
-    this.sendMessage(newMessage)
+    const newMessage = {type: 'postMessage', username: message.username, content: message.inputValue}
+    if(this.state.defaultValue.name !== newMessage.username) {
+      const newNotification = {type: 'postNotification', content:`${this.state.defaultValue.name} has changed their name to ${newMessage.username}`}
+      this.sendMessage(newNotification)
+      this.state.defaultValue.name = newMessage.username
+    }
+      this.sendMessage(newMessage);
   }
 
   componentDidMount() {
@@ -35,7 +40,7 @@ class App extends Component {
       const allMessages = oldMessages.concat(newMessage);
       this.setState({messages: allMessages})
     }
-    
+
   }
   render() {
     return (
