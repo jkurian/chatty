@@ -59,6 +59,7 @@ class App extends Component {
     const elem = ReactDOM.findDOMNode(this.refs.wrappermes);
     if(elem) {
         elem.scrollIntoView({block: 'end'});
+        //needed to push the messages viewport above the footer!
         elem.scrollTop += 63;
     }
 }
