@@ -4,12 +4,6 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 
 export default class MessageList extends Component {
-    componentDidUpdate() {
-        const elem = ReactDOM.findDOMNode(this.refs.messages);
-        if(elem) {
-            elem.scrollIntoView(false);
-        }
-    }
   render() {
       const messages = this.props.messages.map((message) => {
           return (
