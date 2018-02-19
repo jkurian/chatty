@@ -40,5 +40,5 @@ export default class Message extends Component {
 }
 
 Message.propTypes = {
-  messageInfo: PropTypes.object,
+  messageInfo: PropTypes.object
 };
