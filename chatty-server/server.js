@@ -24,12 +24,16 @@ wss.on('connection', (ws) => {
   console.log('Client connected');
   ws.on('message', function incoming(message) {
     let messageJSON = JSON.parse(message);
-    console.log('User', messageJSON.username, 'said', messageJSON.content);
     messageJSON.id = uuidv4();
-    console.log('new ID gen', messageJSON.id);
+
+    if(messageJSON.type === 'postMessage') {
+        messageJSON.type = 'incomingMessage'
+    } else if (messageJSON.type === 'postNotification') {
+        messageJSON.type = 'incomingNotification';
+        messageJSON.username = null;
+    }
 
     wss.broadcast = function broadcast(messageJSON) {
-        console.log('broadcasting', messageJSON)
         wss.clients.forEach(function each(client) {
           if (client.readyState === WebSocket.OPEN) {
             client.send(JSON.stringify(messageJSON));
