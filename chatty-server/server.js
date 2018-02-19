@@ -28,6 +28,15 @@ const server = express()
      console.log(color);
      return color;
    }
+
+   //Checks if message contains a URL
+   function checkURL(url) {
+     let match = url.match(/\b(https?:\/\/\S+(?:png|jpe?g|gif)\S*)\b/);
+     //returns only the URL from the match if there is one
+     if(match != null) match = match[0];
+     return match;
+}
+
    // Set up a callback that will run when a client connects to the server
    // When a client connects they are assigned a socket, represented by
    // the ws parameter in the callback.
@@ -51,7 +60,8 @@ const server = express()
     let messageJSON = JSON.parse(message);
     messageJSON.id = uuidv4();
     messageJSON.color = usercolor;
-
+    let url = checkURL(messageJSON.content);
+    messageJSON.url = url;
     if(messageJSON.type === 'postMessage') {
         messageJSON.type = 'incomingMessage'
     } else if (messageJSON.type === 'postNotification') {
