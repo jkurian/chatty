@@ -5,7 +5,7 @@
 
 ## Final Produect
 
-!["screenshot of full app GUI"](/docs/Full-GUI.png)
+!["demo of chatty app"](/docs/chatty-demo.gif)
 
 ### Dependencies
 
