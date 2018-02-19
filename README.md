@@ -5,7 +5,7 @@
 
 ## Final Product
 
-!["demo of chatty app"](/docs/chatty-demo.gif)
+!["demo of chatty app"](/docs/chatty-full-demo.gif)
 
 ### Dependencies
 
