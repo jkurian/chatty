@@ -3,7 +3,7 @@
 * No data is persisted, focus is on client-side experience. 
 * This app communicates with a server with Web Scokets and provides real-time updates. 
 
-## Final Produect
+## Final Product
 
 !["demo of chatty app"](/docs/chatty-demo.gif)
 
