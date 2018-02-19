@@ -54,7 +54,6 @@ class App extends Component {
     this.socket.onclose = () => {
       console.log('closed');
     }
-
   }
   render() {
     return (

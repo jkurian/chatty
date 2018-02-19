@@ -11,8 +11,9 @@ export default class Message extends Component {
         <div>
           <div className="message">
             <span className="message-username" style={styles} >{this.props.messageInfo.username}</span>
-            <span className="message-content">{this.props.messageInfo.content}
-            <img src={this.props.messageInfo.url} />
+            <span className="message-content">
+            <div>{this.props.messageInfo.content}</div>
+            <div><img src={this.props.messageInfo.url} /></div>
           </span>
          </div>
         </div>
