@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 
 export default class Message extends Component {
   render() {
+    let styles = {
+      color: this.props.messageInfo.color
+    }
     if(this.props.messageInfo.type === 'incomingMessage' && this.props.messageInfo.url) {
-      let styles = {
-        color: this.props.messageInfo.color
-      }
       return (
         <div>
           <div className="message">
@@ -18,9 +18,6 @@ export default class Message extends Component {
         </div>
       );
     } else if (this.props.messageInfo.type === 'incomingMessage' && !this.props.messageInfo.url) {
-      let styles = {
-        color: this.props.messageInfo.color
-      }
       return (
         <div>
           <div className="message">
