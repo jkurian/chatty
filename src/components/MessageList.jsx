@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Message from './Message.jsx';
 import PropTypes from 'prop-types';
+import ReactDOM from 'react-dom';
 
 export default class MessageList extends Component {
   render() {
@@ -10,7 +11,7 @@ export default class MessageList extends Component {
             )
         })
     return (
-        <main className='messages'>
+        <main ref='messages' className='messages'>
             {messages}
         </main>
     );

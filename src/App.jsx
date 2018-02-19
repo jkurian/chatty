@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ChatBar from './components/ChatBar.jsx'
 import MessageList from './components/MessageList.jsx'
 import NavBar from './components/NavBar.jsx'
-
+import ReactDOM from 'react-dom'
 const defaultState = {
   defaultValue: {name: 'Anonymous'},
   messages: []
@@ -30,7 +30,7 @@ class App extends Component {
   addMessage(message) {
     const newMessage = {type: 'postMessage', username: message.username, content: message.inputValue};
     if(this.state.defaultValue.name !== newMessage.username) {
-      const newNotification = {type: 'postNotification', content:`${this.state.defaultValue.name} has changed their name to ${newMessage.username}`};
+      const newNotification = {type: 'postNotification', content:`${this.state.defaultValue.name} has changed their name to ${newMessage.username}`, updatedUsername: newMessage.username};
       this.sendMessage(newNotification);
       this.setState({defaultValue: {name: newMessage.username}, messages: this.state.messages});
     }
@@ -55,11 +55,20 @@ class App extends Component {
       console.log('closed');
     }
   }
+  componentDidUpdate() {
+    const elem = ReactDOM.findDOMNode(this.refs.wrappermes);
+    if(elem) {
+        elem.scrollIntoView(false);
+        elem.scrollTop += 63;
+    }
+}
   render() {
     return (
       <div>
         <NavBar />
+        <div className='wrapperMessages' ref='wrappermes'>
         <MessageList messages={this.state.messages}/>
+        </div>
         <ChatBar defaultValue={this.state.defaultValue.name} addMessage={this.addMessage}/>
       </div>
     );
