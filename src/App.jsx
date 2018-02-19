@@ -13,15 +13,20 @@ class App extends Component {
     super(props);
     this.addMessage = this.addMessage.bind(this);
     this.state = defaultState;
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this.socket = new WebSocket("ws:localhost:3001", "protocolOne");
   }
   addMessage(message) {
     const oldMessages = this.state.messages;
     const newMessage = {username: message.username, content: message.inputValue, key:'1'}
+    this.socket.send(JSON.stringify(newMessage));
     const allMessages = oldMessages.concat(newMessage);
     this.setState({messages: allMessages})
   }
   componentDidMount() {
-
+    this.socket.onopen = (event) => {
+      console.log('Connected to server!')
+    }
   }
   render() {
     return (
