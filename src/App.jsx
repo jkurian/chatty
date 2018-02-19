@@ -30,7 +30,7 @@ class App extends Component {
   addMessage(message) {
     const newMessage = {type: 'postMessage', username: message.username, content: message.inputValue};
     if(this.state.defaultValue.name !== newMessage.username) {
-      const newNotification = {type: 'postNotification', content:`${this.state.defaultValue.name} has changed their name to ${newMessage.username}`};
+      const newNotification = {type: 'postNotification', content:`${this.state.defaultValue.name} has changed their name to ${newMessage.username}`, updatedUsername: newMessage.username};
       this.sendMessage(newNotification);
       this.setState({defaultValue: {name: newMessage.username}, messages: this.state.messages});
     }
