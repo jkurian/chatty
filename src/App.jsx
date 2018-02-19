@@ -41,6 +41,10 @@ class App extends Component {
       this.setState({messages: allMessages})
     }
 
+    this.socket.onclose = (event) => {
+      console.log('closed');
+    }
+
   }
   render() {
     return (
