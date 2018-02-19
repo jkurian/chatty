@@ -6,7 +6,7 @@ import NavBar from './components/NavBar.jsx'
 const defaultState = {
   defaultValue: {name: 'Anonymous'},
   messages: []
-}
+};
 
 class App extends Component {
   constructor(props) {
@@ -28,11 +28,11 @@ class App extends Component {
   //If we recieve a notification, it means the user has changed their name
   //and therefor we send the notification and the message afterwards.
   addMessage(message) {
-    const newMessage = {type: 'postMessage', username: message.username, content: message.inputValue}
+    const newMessage = {type: 'postMessage', username: message.username, content: message.inputValue};
     if(this.state.defaultValue.name !== newMessage.username) {
-      const newNotification = {type: 'postNotification', content:`${this.state.defaultValue.name} has changed their name to ${newMessage.username}`}
-      this.sendMessage(newNotification)
-      this.state.defaultValue.name = newMessage.username
+      const newNotification = {type: 'postNotification', content:`${this.state.defaultValue.name} has changed their name to ${newMessage.username}`};
+      this.sendMessage(newNotification);
+      this.state.defaultValue.name = newMessage.username;
     }
       this.sendMessage(newMessage);
   }
@@ -41,14 +41,14 @@ class App extends Component {
   //this new message.
   componentDidMount() {
     this.socket.onopen = (event) => {
-      console.log('Connected to server!')
+      console.log('Connected to server!');
     }
 
     this.socket.onmessage = (event) => {
       let newMessage = JSON.parse(event.data);
       const oldMessages = this.state.messages;
       const allMessages = oldMessages.concat(newMessage);
-      this.setState({messages: allMessages})
+      this.setState({messages: allMessages});
     }
 
     this.socket.onclose = (event) => {
