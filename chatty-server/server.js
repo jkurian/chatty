@@ -25,7 +25,6 @@ const server = express()
      for(let i = 0; i < 6; i++) {
       color += hex.charAt(Math.floor(Math.random() * 16));
      }
-     console.log(color);
      return color;
    }
 
@@ -73,16 +72,15 @@ const server = express()
       wss.broadcast(messageJSON);
   });
   //Everytime a user connects, we send a notifcation to display how many users are connected.
-  let usersOnline = {type: 'incomingNotification', content:`New user connected! ${totalUsers.connected} users online.`, id: uuidv4()}
+  let usersOnline = {type: 'incomingNotification', content:`Anonymous user connected! ${totalUsers.connected} user(s) online.`, id: uuidv4()}
   wss.broadcast(usersOnline);
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
    //Everytime a user disconnects, we send a notifcation to display how many users are connected.
   ws.on('close', () => {
     console.log('Client disconnected');
-    console.log(ws);
     totalUsers.connected--;
-    let usersOnline = {type: 'incomingNotification', content:`User ${ws.username} disconnected. ${totalUsers.connected} users online.`, id: uuidv4()}
+    let usersOnline = {type: 'incomingNotification', content:`User ${ws.username} disconnected. ${totalUsers.connected} user(s) online.`, id: uuidv4()}
     wss.broadcast(usersOnline);
   })
 
