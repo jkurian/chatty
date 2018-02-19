@@ -42,6 +42,7 @@ const server = express()
    // the ws parameter in the callback.
    wss.on('connection', (ws) => {
     let usercolor = randomColor();
+    ws.username = 'Anonymous';
     //on broadcast, we send a message to all the clients connected
     wss.broadcast = function broadcast(messageJSON) {
       wss.clients.forEach(function each(client) {
@@ -65,6 +66,7 @@ const server = express()
     if(messageJSON.type === 'postMessage') {
         messageJSON.type = 'incomingMessage'
     } else if (messageJSON.type === 'postNotification') {
+        ws.username = messageJSON.updatedUsername;
         messageJSON.type = 'incomingNotification';
         messageJSON.username = null;
     }
@@ -78,8 +80,9 @@ const server = express()
    //Everytime a user disconnects, we send a notifcation to display how many users are connected.
   ws.on('close', () => {
     console.log('Client disconnected');
+    console.log(ws);
     totalUsers.connected--;
-    let usersOnline = {type: 'incomingNotification', content:`User disconnected. ${totalUsers.connected} users online.`, id: uuidv4()}
+    let usersOnline = {type: 'incomingNotification', content:`User ${ws.username} disconnected. ${totalUsers.connected} users online.`, id: uuidv4()}
     wss.broadcast(usersOnline);
   })
 
