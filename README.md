@@ -5,7 +5,7 @@
 
 ## Final Produect
 
-!["screenshot of full app GUI"](/public/Full_GUI.png)
+!["screenshot of full app GUI"](/docs/Full-GUI.png)
 
 ### Dependencies
 
