@@ -33,6 +33,7 @@ const server = express()
    // the ws parameter in the callback.
    wss.on('connection', (ws) => {
     let usercolor = randomColor();
+    //on broadcast, we send a message to all the clients connected
     wss.broadcast = function broadcast(messageJSON) {
       wss.clients.forEach(function each(client) {
         if (client.readyState === WebSocket.OPEN) {
@@ -41,7 +42,11 @@ const server = express()
       });
     };
   console.log('Client connected');
+  //Update the totalUsers.connected on connection
   totalUsers.connected++;
+
+  //when we recieve a message from the client, we add a UUID and a color which is 
+  //generated on user connection.
   ws.on('message', function incoming(message) {
     let messageJSON = JSON.parse(message);
     messageJSON.id = uuidv4();
@@ -55,11 +60,12 @@ const server = express()
     }
       wss.broadcast(messageJSON);
   });
-
+  //Everytime a user connects, we send a notifcation to display how many users are connected.
   let usersOnline = {type: 'incomingNotification', content:`New user connected! ${totalUsers.connected} users online.`, id: uuidv4()}
   wss.broadcast(usersOnline);
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
+   //Everytime a user disconnects, we send a notifcation to display how many users are connected.
   ws.on('close', () => {
     console.log('Client disconnected');
     totalUsers.connected--;
