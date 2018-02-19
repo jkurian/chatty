@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Message from './Message.jsx';
-
+import PropTypes from 'prop-types';
 
 export default class MessageList extends Component {
   render() {
@@ -16,3 +16,8 @@ export default class MessageList extends Component {
     );
   }
 }
+
+
+MessageList.propTypes = {
+    messages: PropTypes.array
+};

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export default class ChatBar extends Component {
   constructor(props){
@@ -26,3 +27,8 @@ export default class ChatBar extends Component {
     );
   }
 }
+
+ChatBar.propTypes = {
+  defaultValue: PropTypes.string,
+  addMessage: PropTypes.func
+};

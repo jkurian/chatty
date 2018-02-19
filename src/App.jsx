@@ -32,7 +32,7 @@ class App extends Component {
     if(this.state.defaultValue.name !== newMessage.username) {
       const newNotification = {type: 'postNotification', content:`${this.state.defaultValue.name} has changed their name to ${newMessage.username}`};
       this.sendMessage(newNotification);
-      this.state.defaultValue.name = newMessage.username;
+      this.setState({defaultValue: {name: newMessage.username}, messages: this.state.messages});
     }
       this.sendMessage(newMessage);
   }
@@ -40,7 +40,7 @@ class App extends Component {
   //when we recieve a message to the server, we update the state to contain
   //this new message.
   componentDidMount() {
-    this.socket.onopen = (event) => {
+    this.socket.onopen = () => {
       console.log('Connected to server!');
     }
 
@@ -51,7 +51,7 @@ class App extends Component {
       this.setState({messages: allMessages});
     }
 
-    this.socket.onclose = (event) => {
+    this.socket.onclose = () => {
       console.log('closed');
     }
 
