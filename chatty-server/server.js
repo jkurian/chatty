@@ -11,20 +11,41 @@ const PORT = 3001;
 // Create a new express server
 const server = express()
    // Make the express server serve static assets (html, javascript, css) from the /public folder
-  .use(express.static('public'))
-  .listen(PORT, '0.0.0.0', 'localhost', () => console.log(`Listening on ${ PORT }`));
+   .use(express.static('public'))
+   .listen(PORT, '0.0.0.0', 'localhost', () => console.log(`Listening on ${ PORT }`));
+   
+   // Create the WebSockets server
+   const wss = new SocketServer({ server });
+   const totalUsers = {connected: 0};
 
-// Create the WebSockets server
-const wss = new SocketServer({ server });
-
-// Set up a callback that will run when a client connects to the server
-// When a client connects they are assigned a socket, represented by
-// the ws parameter in the callback.
-wss.on('connection', (ws) => {
+   //Generates a random color for the username
+   const randomColor = function() {
+     let hex = '0123456789ABCDEF'
+     let color = '#'
+     for(let i = 0; i < 6; i++) {
+      color += hex.charAt(Math.floor(Math.random() * 16));
+     }
+     console.log(color);
+     return color;
+   }
+   // Set up a callback that will run when a client connects to the server
+   // When a client connects they are assigned a socket, represented by
+   // the ws parameter in the callback.
+   wss.on('connection', (ws) => {
+    let usercolor = randomColor();
+    wss.broadcast = function broadcast(messageJSON) {
+      wss.clients.forEach(function each(client) {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify(messageJSON));
+          }
+      });
+    };
   console.log('Client connected');
+  totalUsers.connected++;
   ws.on('message', function incoming(message) {
     let messageJSON = JSON.parse(message);
     messageJSON.id = uuidv4();
+    messageJSON.color = usercolor;
 
     if(messageJSON.type === 'postMessage') {
         messageJSON.type = 'incomingMessage'
@@ -32,16 +53,19 @@ wss.on('connection', (ws) => {
         messageJSON.type = 'incomingNotification';
         messageJSON.username = null;
     }
-
-    wss.broadcast = function broadcast(messageJSON) {
-        wss.clients.forEach(function each(client) {
-          if (client.readyState === WebSocket.OPEN) {
-            client.send(JSON.stringify(messageJSON));
-          }
-        });
-      };
       wss.broadcast(messageJSON);
   });
+
+  let usersOnline = {type: 'incomingNotification', content:`New user connected! ${totalUsers.connected} users online.`, id: uuidv4()}
+  wss.broadcast(usersOnline);
+
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
-  ws.on('close', () => console.log('Client disconnected'));
+  ws.on('close', () => {
+    console.log('Client disconnected');
+    totalUsers.connected--;
+    let usersOnline = {type: 'incomingNotification', content:`User disconnected. ${totalUsers.connected} users online.`, id: uuidv4()}
+    wss.broadcast(usersOnline);
+  })
+
+  ws.on('error', () => console.log('errored'));
 });
