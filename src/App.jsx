@@ -58,7 +58,7 @@ class App extends Component {
   componentDidUpdate() {
     const elem = ReactDOM.findDOMNode(this.refs.wrappermes);
     if(elem) {
-        elem.scrollIntoView(false);
+        elem.scrollIntoView({block: 'end'});
         elem.scrollTop += 63;
     }
 }
