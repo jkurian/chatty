@@ -72,7 +72,7 @@ const server = express()
       wss.broadcast(messageJSON);
   });
   //Everytime a user connects, we send a notifcation to display how many users are connected.
-  let usersOnline = {type: 'incomingNotification', content:`Anonymous user connected! ${totalUsers.connected} user(s) online.`, id: uuidv4()}
+  let usersOnline = {type: 'incomingUserCount', content:`Anonymous user connected! ${totalUsers.connected} user(s) online.`, id: uuidv4(), usersOnline: totalUsers.connected}
   wss.broadcast(usersOnline);
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.

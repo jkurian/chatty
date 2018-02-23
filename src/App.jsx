@@ -5,7 +5,8 @@ import NavBar from './components/NavBar.jsx'
 import ReactDOM from 'react-dom'
 const defaultState = {
   defaultValue: {name: 'Anonymous'},
-  messages: []
+  messages: [],
+  userCount: 0
 };
 
 class App extends Component {
@@ -48,7 +49,11 @@ class App extends Component {
       let newMessage = JSON.parse(event.data);
       const oldMessages = this.state.messages;
       const allMessages = oldMessages.concat(newMessage);
-      this.setState({messages: allMessages});
+      if(newMessage.type === 'incomingUserCount') {
+        this.setState({messages: allMessages, userCount: newMessage.usersOnline})
+      } else {
+        this.setState({messages: allMessages});
+      }
     }
 
     this.socket.onclose = () => {
@@ -67,7 +72,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <NavBar />
+        <NavBar userCount={this.state.userCount} />
         <div className='wrapperMessages' ref='wrappermes'>
         <MessageList messages={this.state.messages}/>
         </div>

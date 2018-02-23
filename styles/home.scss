@@ -78,8 +78,11 @@ body {
   position: fixed;
   right: 0;
   top: 0;
+  
+  span {
+    float: right;
+  }
 }
-
 .navbar-brand {
   color: inherit;
   display: block;

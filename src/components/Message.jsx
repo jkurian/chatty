@@ -27,7 +27,7 @@ export default class Message extends Component {
           </div>
         </div>
       );
-   } else if(this.props.messageInfo.type === 'incomingNotification') {
+   } else if(this.props.messageInfo.type === 'incomingNotification' || this.props.messageInfo.type === 'incomingUserCount') {
       return (
         <div className="message system">
           {this.props.messageInfo.content}
