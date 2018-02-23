@@ -80,7 +80,7 @@ const server = express()
   ws.on('close', () => {
     console.log('Client disconnected');
     totalUsers.connected--;
-    let usersOnline = {type: 'incomingNotification', content:`User ${ws.username} disconnected. ${totalUsers.connected} user(s) online.`, id: uuidv4()}
+    let usersOnline = {type: 'incomingUserCount', content:`User ${ws.username} disconnected. ${totalUsers.connected} user(s) online.`, id: uuidv4(), usersOnline: totalUsers.connected}
     wss.broadcast(usersOnline);
   })
 
